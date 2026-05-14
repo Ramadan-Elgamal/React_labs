@@ -3,13 +3,14 @@ import { Navbar1 } from './components/NavBar';
 import SearchBar from './components/SearchBar';
 import { ProductCard } from './components/ProductCard';
 import { SkeletonCard } from './components/SkeletonCard';
-
+import { useDebounce } from "@uidotdev/usehooks";
 
 const App = () => {
   const [products, setProducts] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
   useEffect(() => {
     let isMounted = true;
@@ -41,7 +42,8 @@ const App = () => {
   }, []);
 
   const filteredProducts = products?.filter((product) =>
-    product.title.toLowerCase().startsWith(searchTerm.toLowerCase())
+    product.title.toLowerCase().startsWith(debouncedSearchTerm.toLowerCase()) ||
+    product.category.toLowerCase().startsWith(debouncedSearchTerm.toLowerCase())
   );
 
   return (
