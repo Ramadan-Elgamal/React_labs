@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { Navbar1 } from './components/NavBar';
 import SearchBar from './components/SearchBar';
 import { ProductCard } from './components/ProductCard';
 import { SkeletonCard } from './components/SkeletonCard';
@@ -49,7 +48,6 @@ const App = () => {
   return (
 
     <div className='p-4'>
-      <Navbar1 />
 
       <div className='my-8 flex items-center justify-between gap-4 flex-col'>
         <h1 className='text-4xl font-bold'>Products</h1>

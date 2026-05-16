@@ -3,10 +3,11 @@
 import { useEffect, useState } from "react";
 import { Moon, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {  NavLink } from 'react-router'
 import { cn } from "@/lib/utils";
 
 
-const Navbar1 = ({
+const Navbar = ({
   logo = {
     url: "https://www.shadcnblocks.com",
     src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/shadcnblockscom-icon.svg",
@@ -43,6 +44,11 @@ const Navbar1 = ({
             </span>
           </a>
 
+          <div className="hidden sm:flex items-center gap-4">
+            <NavLink to="/" className="text-sm font-medium hover:underline">Home</NavLink>
+            <NavLink to="/products" className="text-sm font-medium hover:underline">Products</NavLink>
+          </div>
+
           <Button
             type="button"
             variant="outline"
@@ -58,4 +64,5 @@ const Navbar1 = ({
   );
 };
 
-export { Navbar1 };
+export { Navbar };
+

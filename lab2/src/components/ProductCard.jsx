@@ -1,4 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
+import { Button } from './ui/button';
+import { Link } from 'react-router';
 
 const ProductCard = ({ product }) => {
   const price = product?.price?.toFixed(2);
@@ -14,17 +16,17 @@ const ProductCard = ({ product }) => {
             alt={product?.title}
             className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
           />
-          <div className={`absolute right-3 top-3 ${isPremium ? 'bg-blue-600 text-white' : 'bg-emerald-500 text-white'} rounded-full px-3 py-1 text-xs font-semibold shadow-sm backdrop-blur`}>
-            <span>
-              {isPremium ? 'Premium' : 'Best Seller'}
-            </span>
-          </div>
         </div>
         <div className="space-y-2 px-4 py-4">
           <div className="flex items-start justify-between gap-3">
-            <CardTitle className="line-clamp-2 text-base leading-snug">
-              {product?.title}
-            </CardTitle>
+            <div className="flex-1">
+              <CardTitle className="line-clamp-2 text-base leading-snug">
+                {product?.title}
+              </CardTitle>
+              <span className={`mt-2 inline-flex items-center rounded-full px-2 py-1 text-xs font-semibold ${product?.stock > 0 ? 'bg-emerald-500 text-white' : 'bg-red-500 text-white'}`}>
+                {product?.stock > 0 ? 'In Stock' : 'Out of Stock'}
+              </span>
+            </div>
             <div className="shrink-0 rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
               ${price}
             </div>
@@ -55,23 +57,12 @@ const ProductCard = ({ product }) => {
             <p className="font-semibold">{product?.minimumOrderQuantity}</p>
           </div>
         </div>
-
-        <div className="flex flex-wrap gap-2">
-          {product?.tags?.map((tag) => (
-            <span key={tag} className="rounded-full border border-border px-2 py-1 text-xs text-muted-foreground">
-              #{tag}
-            </span>
-          ))}
-        </div>
       </CardContent>
       <div className="border-t border-border px-4 py-3 text-xs text-muted-foreground">
-        <div className="flex items-center justify-between gap-3">
-          <span>{product?.shippingInformation}</span>
-          <span>{product?.sku}</span>
-        </div>
-        <div className="mt-2 flex items-center justify-between gap-3">
-          <span>{product?.warrantyInformation}</span>
-          <span>{product?.returnPolicy}</span>
+        <div className="mt-3 flex items-center justify-end">
+          <Button asChild size="sm" className='bg-black text-white hover:bg-black/90'>
+            <Link to={`/products/${product?.id}`}>View Details</Link>
+          </Button>
         </div>
       </div>
     </Card>
