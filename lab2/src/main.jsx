@@ -9,6 +9,7 @@ import {
   RouterProvider,
 } from "react-router";
 import ProductDetails from './ProductDetails.jsx'
+import NotFound from './NotFound.jsx'
 
 let router = createBrowserRouter([
   {
@@ -39,6 +40,14 @@ let router = createBrowserRouter([
           return { Component: module.default };
         },
       },
+      {
+        path: "*",
+        Component: NotFound,
+        async lazy() {
+          const module = await import('./NotFound.jsx');
+          return { Component: module.default };
+        },
+      },
     ],
   },
 ]);
@@ -46,8 +55,3 @@ let router = createBrowserRouter([
 createRoot(document.getElementById('root')).render(
   <RouterProvider router={router} />,
 )
-
-
-
-
-
