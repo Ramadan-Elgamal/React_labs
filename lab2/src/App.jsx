@@ -3,6 +3,7 @@ import SearchBar from './components/SearchBar';
 import { ProductCard } from './components/ProductCard';
 import { SkeletonCard } from './components/SkeletonCard';
 import { useDebounce } from "@uidotdev/usehooks";
+import api from './lib/axios';
 
 const App = () => {
   const [products, setProducts] = useState(null);
@@ -18,8 +19,7 @@ const App = () => {
       try {
         await new Promise((resolve) => setTimeout(resolve, 2000));
         if (isMounted) {
-          const response = await fetch('https://dummyjson.com/products');
-          const data = await response.json();
+          const { data } = await api.get('/products');
           setProducts(data.products);
         }
       } catch (error) {

@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router'
+import api from './lib/axios'
+import { Button } from './components/ui/button'
 
 const ProductDetails = () => {
   const { id } = useParams()
@@ -11,11 +13,10 @@ const ProductDetails = () => {
     const fetchProduct = async () => {
       if (!id) return setLoading(false)
       try {
-        const res = await fetch(`https://dummyjson.com/products/${id}`)
-        const data = await res.json()
+        const { data } = await api.get(`/products/${id}`)
         if (mounted) setProduct(data)
       } catch (e) {
-        // ignore
+        console.error('Failed to fetch product:', e)
       } finally {
         if (mounted) setLoading(false)
       }
@@ -66,6 +67,15 @@ const ProductDetails = () => {
             <p><strong>Category:</strong> {product.category}</p>
             <p><strong>Rating:</strong> {product.rating} ★</p>
             <p><strong>Discount:</strong> {product.discountPercentage}%</p>
+          </div>
+
+          <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+            <Button className="bg-foreground text-background hover:bg-foreground/90">
+              Buy Now
+            </Button>
+            <Button variant="outline" className="border-border bg-background text-foreground hover:bg-muted">
+              Add to Cart
+            </Button>
           </div>
         </div>
       </div>
