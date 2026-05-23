@@ -1,11 +1,17 @@
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Button } from './ui/button';
 import { Link } from 'react-router';
+import { useSelector, useDispatch } from 'react-redux';
+import { addToCart } from '../store/RTK/cartSlice';
 
 const ProductCard = ({ product }) => {
   const price = product?.price?.toFixed(2);
   const discount = product?.discountPercentage?.toFixed(2);
   const isPremium = Number(product?.price) > 100;
+
+  const dispatch = useDispatch();
+  const cartItems = useSelector((state) => state.cart?.cartItems ?? []);
+  const isInCart = cartItems.some(item => item.id === product?.id);
 
   return (
     <Card className="overflow-hidden border border-border bg-card p-0 shadow-sm transition-shadow hover:shadow-md">
@@ -62,6 +68,12 @@ const ProductCard = ({ product }) => {
         <div className="mt-3 flex items-center justify-end">
           <Button asChild size="sm" className='bg-black text-white hover:bg-black/90'>
             <Link to={`/products/${product?.id}`}>View Details</Link>
+          </Button>
+          <Button 
+            onClick={() => dispatch(addToCart(product))}
+            className="ml-2"
+          >
+            {isInCart ? 'Increase Quantity' : 'Add to Cart'}
           </Button>
         </div>
       </div>

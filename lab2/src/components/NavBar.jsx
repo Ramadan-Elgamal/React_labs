@@ -5,7 +5,9 @@ import { Moon, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {  NavLink } from 'react-router'
 import { cn } from "@/lib/utils";
-import { useThemeStore } from "@/store/useThemeStore";
+import { useThemeStore } from "@/store/zustand/useThemeStore";
+import { useSelector } from 'react-redux';
+import { useLanguage } from '../store/context/LanguageContext.jsx';
 
 const Navbar = ({
   logo = {
@@ -18,6 +20,10 @@ const Navbar = ({
 }) => {
   const theme = useThemeStore((state) => state.theme);
   const toggleTheme = useThemeStore((state) => state.toggleTheme);
+  const { language, setLanguage } = useLanguage();
+
+  const cartItems = useSelector((state) => state.cart?.cartItems ?? []);
+  const cartItemCount = cartItems.reduce((total, item) => total + item.quantity, 0);
 
   useEffect(() => {
     const isDark = theme === "dark";
@@ -42,6 +48,28 @@ const Navbar = ({
           <div className="hidden sm:flex items-center gap-4">
             <NavLink to="/" className="text-sm font-medium hover:underline">Home</NavLink>
             <NavLink to="/products" className="text-sm font-medium hover:underline">Products</NavLink>
+            <NavLink to="/products/cart" className="text-sm font-medium hover:underline">
+              Cart {cartItemCount > 0 && (<span className="ml-1 inline-flex items-center justify-center rounded-full bg-red-500 px-2 py-0.5 text-xs font-semibold text-white">{cartItemCount}</span>)}
+            </NavLink>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <Button
+              type="button"
+              variant={language === "en" ? "default" : "outline"}
+              size="sm"
+              onClick={() => setLanguage("en")}
+            >
+              EN
+            </Button>
+            <Button
+              type="button"
+              variant={language === "ar" ? "default" : "outline"}
+              size="sm"
+              onClick={() => setLanguage("ar")}
+            >
+              AR
+            </Button>
           </div>
 
           <Button

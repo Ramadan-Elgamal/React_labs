@@ -2,14 +2,18 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
-import { Layout } from './layout'
-import Landing from './Landing'
+import { Layout } from './pages/layout.jsx'
+import Landing from './pages/Landing'
 import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router";
-import ProductDetails from './ProductDetails.jsx'
-import NotFound from './NotFound.jsx'
+import ProductDetails from './pages/ProductDetails.jsx'
+import NotFound from './pages/NotFound.jsx'
+import Cart from './pages/Cart.jsx'
+import { Provider } from 'react-redux';
+import { store } from './store/RTK/store';
+import { LanguageProvider } from './store/context/LanguageContext.jsx';
 
 let router = createBrowserRouter([
   {
@@ -18,15 +22,13 @@ let router = createBrowserRouter([
     children: [
       {
         index: true,
-        Component: Landing,
         async lazy() {
-          const module = await import('./Landing');
+          const module = await import('./pages/Landing');
           return { Component: module.default };
         },
       },
       {
         path: "products",
-        Component: App,
         async lazy() {
           const module = await import('./App.jsx');
           return { Component: module.default };
@@ -34,24 +36,35 @@ let router = createBrowserRouter([
       },
       {
         path: "products/:id",
-        Component: ProductDetails,
         async lazy() {
-          const module = await import('./ProductDetails.jsx');
+          const module = await import('./pages/ProductDetails.jsx');
           return { Component: module.default };
         },
       },
       {
         path: "*",
-        Component: NotFound,
         async lazy() {
-          const module = await import('./NotFound.jsx');
+          const module = await import('./pages/NotFound.jsx');
           return { Component: module.default };
         },
       },
+      {
+        path: "/products/cart",
+        async lazy() {
+          const module = await import('./pages/Cart.jsx');
+          return { Component: module.default };
+        },
+      }
     ],
   },
 ]);
 
 createRoot(document.getElementById('root')).render(
-  <RouterProvider router={router} />,
+  <Provider store={store}>
+    <LanguageProvider>
+      <StrictMode>
+        <RouterProvider router={router} />
+      </StrictMode>
+    </LanguageProvider>
+  </Provider>
 )

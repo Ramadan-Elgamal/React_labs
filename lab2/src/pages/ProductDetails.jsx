@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router'
-import api from './lib/axios'
-import { Button } from './components/ui/button'
+import api from '../lib/axios'
+import { Button } from '../components/ui/button'
 
 const ProductDetails = () => {
   const { id } = useParams()
