@@ -11,6 +11,7 @@ import {
 import ProductDetails from './pages/ProductDetails.jsx'
 import NotFound from './pages/NotFound.jsx'
 import Cart from './pages/Cart.jsx'
+import Register from './pages/Register.jsx'
 import { Provider } from 'react-redux';
 import { store } from './store/RTK/store';
 import { LanguageProvider } from './store/context/LanguageContext.jsx';
@@ -52,6 +53,13 @@ let router = createBrowserRouter([
         path: "/products/cart",
         async lazy() {
           const module = await import('./pages/Cart.jsx');
+          return { Component: module.default };
+        },
+      },
+      {
+        path: "register",
+        async lazy() {
+          const module = await import('./pages/Register.jsx');
           return { Component: module.default };
         },
       }

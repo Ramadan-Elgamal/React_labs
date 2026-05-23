@@ -80,6 +80,10 @@ const Navbar = ({
           >
             {theme === "dark" ? <Sun className="size-4" /> : <Moon className="size-4" />}
           </Button>
+          
+          <NavLink to="/register" className="rounded-full border border-border px-4 py-2 text-sm font-medium hover:bg-muted">
+              Register
+            </NavLink>
         </nav>
       </div>
     </section>
