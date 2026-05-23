@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Moon, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {  NavLink } from 'react-router'
 import { cn } from "@/lib/utils";
-
+import { useThemeStore } from "@/store/useThemeStore";
 
 const Navbar = ({
   logo = {
@@ -16,18 +16,13 @@ const Navbar = ({
   },
   className,
 }) => {
-  const [isDarkMode, setIsDarkMode] = useState(() => {
-    if (typeof window === "undefined") {
-      return false;
-    }
-
-    return document.documentElement.classList.contains("dark");
-  });
+  const theme = useThemeStore((state) => state.theme);
+  const toggleTheme = useThemeStore((state) => state.toggleTheme);
 
   useEffect(() => {
-    document.documentElement.classList.toggle("dark", isDarkMode);
-    localStorage.setItem("theme", isDarkMode ? "dark" : "light");
-  }, [isDarkMode]);
+    const isDark = theme === "dark";
+    document.documentElement.classList.toggle("dark", isDark);
+  }, [theme]);
 
   return (
     <section className={cn("py-4", className)}>
@@ -53,10 +48,9 @@ const Navbar = ({
             type="button"
             variant="outline"
             size="icon"
-            onClick={() => setIsDarkMode((current) => !current)}
-            aria-label={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
+            onClick={toggleTheme}
           >
-            {isDarkMode ? <Sun className="size-4" /> : <Moon className="size-4" />}
+            {theme === "dark" ? <Sun className="size-4" /> : <Moon className="size-4" />}
           </Button>
         </nav>
       </div>
